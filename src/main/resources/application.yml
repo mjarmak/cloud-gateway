@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: jenius-cloud-gateway
+  cloud:
+    gateway:
+      routes:
+#        the routes list has to be sorted out to work as intented
+#          forwards requests to <uri>/<segment>
+        - id: test3
+          uri: https://www.baeldung.com
+          predicates:
+            - Path=/baeldung/**
+          filters:
+            - RewritePath=/baeldung/(?<segment>.*), /$\{segment}
+
+        - id: test1
+          uri: https://google.com
+          predicates:
+            - Query=red,gree.
+
+        - id: test2
+          uri: https://example.org
+          predicates:
+#            - Cookie=mycookie,mycookievalue
+            - After=2017-01-20T17:42:47.789-07:00[America/Denver] # only takes requests made after this date
+            - Before=2023-01-20T17:42:47.789-07:00[America/Denver] # only takes requests made before this date
+#            - Cookie=chocolate, ch.p # matches requests that have a cookie named chocolate whose value matches the ch.p regular expression.
