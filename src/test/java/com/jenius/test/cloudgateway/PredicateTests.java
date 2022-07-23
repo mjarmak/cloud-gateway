@@ -20,9 +20,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class RewriteTests {
+public class PredicateTests {
 
-    private static final Logger log = LoggerFactory.getLogger(RewriteTests.class);
+    private static final Logger log = LoggerFactory.getLogger(PredicateTests.class);
 
     // Create a running HttpServer that echoes back the request URL.
     private static HttpServer startTestServer() {
@@ -66,6 +66,7 @@ public class RewriteTests {
         });
     }
 
+//    params test
     @Test
     void test1(@Autowired WebTestClient webClient) {
         webClient.get()
@@ -78,10 +79,12 @@ public class RewriteTests {
                 });
     }
 
+//    before, after and header test
     @Test
     void test2(@Autowired WebTestClient webClient) {
         webClient.get()
                 .uri("http://localhost:" + localPort + "")
+                .header("head", "beforeafter")
                 .exchange()
                 .expectBody()
                 .consumeWith((result) -> {
@@ -90,8 +93,23 @@ public class RewriteTests {
                 });
     }
 
+//    testing java predicates isnt working for now
+//    java url rewriter
+//    @Test
+//    void testRewriteJava(@Autowired WebTestClient webClient) {
+//        webClient.get()
+//                .uri("http://localhost:" + localPort + "/facebook")
+//                .exchange()
+//                .expectBody()
+//                .consumeWith((result) -> {
+//                    String body = new String(Objects.requireNonNull(result.getResponseBody()));
+//                    assertTrue(body.contains("facebook"));
+//                });
+//    }
+
+//    yaml url rewriter test
     @Test
-    void test3(@Autowired WebTestClient webClient) {
+    void testRewriteYaml(@Autowired WebTestClient webClient) {
         webClient.get()
                 .uri("http://localhost:" + localPort + "/baeldung/spring-cloud-gateway")
                 .exchange()

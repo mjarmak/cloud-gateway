@@ -21,7 +21,7 @@ spring:
         - id: test2
           uri: https://example.org
           predicates:
-#            - Cookie=mycookie,mycookievalue
+            - Header=head,beforeafter # only takes requests with the header "head=beforeafter"
             - After=2017-01-20T17:42:47.789-07:00[America/Denver] # only takes requests made after this date
             - Before=9999-01-20T17:42:47.789-07:00[America/Denver] # only takes requests made before this date
 #            - Cookie=chocolate, ch.p # matches requests that have a cookie named chocolate whose value matches the ch.p regular expression.

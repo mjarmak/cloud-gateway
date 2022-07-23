@@ -21,21 +21,21 @@ public class Application {
 
 //	 either do it in the yml file, or do it here in java
 	@Bean
-	public RouteLocator dynamicZipCodeRoute(RouteLocatorBuilder builder) {
+	public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
 		return builder.routes()
 
 //				forwards /baeldung to http://baeldung.com
 				.route("dynamicRewrite", r ->
-						r.path("/baeldung")
+						r.path("/facebook")
 								.filters(f -> f.filter((exchange, chain) -> {
 									ServerHttpRequest req = exchange.getRequest();
 									addOriginalRequestUrl(exchange, req.getURI());
 
-									ServerHttpRequest request = req.mutate().uri(URI.create("https://baeldung.com")).build();
+									ServerHttpRequest request = req.mutate().uri(URI.create("https://facebook.com")).build();
 									exchange.getAttributes().put(GATEWAY_REQUEST_URL_ATTR, request.getURI());
 									return chain.filter(exchange.mutate().request(request).build());
 								}))
-								.uri("https://baeldung.com"))
+								.uri("https://facebook.com"))
 
 //				.route("r1", r -> r.host("**.baeldung.com")
 //						.and()
